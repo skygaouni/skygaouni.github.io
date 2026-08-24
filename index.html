@@ -1,108 +1,829 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歡迎來到 skygaouni 的個人網站</title>
+    <title>skygaouni</title>
+    <!-- FontAwesome 圖示 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* 預設深色主題變數 */
+        :root {
+            --bg-body: #1c1e22;
+            --bg-navbar: #16181b;
+            --bg-card: #24272c;
+            --bg-dropdown: #24272c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a6b1;
+            --link-color: #5c9eff;
+            --border-color: #2e3238;
+            --btn-border: #3b4252;
+            --btn-hover: #2c313a;
+            --accent-gold: #e5b869;
+        }
+
+        /* 淺色主題變數 */
+        [data-theme="light"] {
+            --bg-body: #f8fafc;
+            --bg-navbar: #ffffff;
+            --bg-card: #ffffff;
+            --bg-dropdown: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --link-color: #2563eb;
+            --border-color: #e2e8f0;
+            --btn-border: #cbd5e1;
+            --btn-hover: #f1f5f9;
+            --accent-gold: #d97706;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
         }
 
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.6;
         }
 
-        .card {
-            background-color: #1e293b;
-            border-radius: 16px;
-            padding: 40px;
-            max-width: 480px;
+        /* 頂部導覽列 */
+        header {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-navbar);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .navbar {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 24px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        /* 導覽列圖片 Logo 樣式 */
+        .nav-logo-img {
+            height: 30px;
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* 右上角按鈕組 */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--btn-border);
+            color: var(--link-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .icon-btn:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--btn-border);
+            background: transparent;
+            color: var(--link-color);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .dropdown-toggle:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 6px);
+            right: 0;
+            background-color: var(--bg-dropdown);
+            min-width: 110px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            z-index: 1001;
+            overflow: hidden;
+            padding: 4px 0;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             width: 100%;
+            padding: 8px 14px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--btn-hover);
+            color: var(--link-color);
+        }
+
+        .theme-dropdown-menu {
+            min-width: 50px;
+            border-radius: 12px;
+            padding: 6px 4px;
             text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            border: 1px solid #334155;
+        }
+
+        .theme-dropdown-menu .dropdown-item {
+            justify-content: center;
+            padding: 10px 0;
+            font-size: 1.1rem;
+            border-radius: 8px;
+        }
+
+        /* 內容佈局 */
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        /* Profile Header 區塊 */
+        .profile-section {
+            display: flex;
+            gap: 36px;
+            align-items: center;
+            padding-bottom: 24px;
         }
 
         .avatar {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            margin: 0 auto 20px;
+            width: 140px;
+            height: 180px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            flex-shrink: 0;
+        }
+
+        .profile-info h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        /* Education 時間軸區塊 */
+        .about-education {
+            margin-top: 16px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        #news, #research {
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sub-section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
+            gap: 10px;
+            color: var(--text-primary);
         }
 
-        h1 {
+        .sub-section-title i {
+            color: var(--accent-gold);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+            border-left: 2px solid var(--border-color);
+            margin-left: 10px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px var(--bg-body);
+        }
+
+        .timeline-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .timeline-period {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .timeline-details {
+            list-style: disc;
+            padding-left: 18px;
+            margin: 0;
+        }
+
+        .timeline-details li {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        /* 標題通用 */
+        .section-title {
             font-size: 1.6rem;
-            margin-bottom: 8px;
+            font-weight: 700;
+            margin: 40px 0 20px;
         }
 
-        p.subtitle {
-            color: #94a3b8;
+        /* News 區塊 */
+        .news-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+        }
+
+        .news-date {
+            color: var(--text-secondary);
+            min-width: 75px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .news-text {
+            color: var(--text-primary);
+        }
+
+        /* Research 區塊 */
+        .research-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 40px 24px;
+            text-align: center;
+            color: var(--text-secondary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .research-card i {
+            font-size: 2.2rem;
+            color: var(--link-color);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .research-card h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+        }
+
+        /* Hobbies 三格卡片排版 */
+        .hobbies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .hobby-card {
+            position: relative;
+            display: block;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-card);
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .hobby-card > img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .hobby-card:hover > img {
+            transform: scale(1.05);
+        }
+
+        /* 多宮格共用容器 (2列 x 3欄) */
+        .mosaic-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            width: 100%;
+            height: 100%;
+            background-color: var(--border-color);
+            transition: transform 0.4s ease;
+        }
+
+        .hobby-card:hover .mosaic-grid {
+            transform: scale(1.04);
+        }
+
+        .mosaic-item {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #1e2227;
+        }
+
+        .mosaic-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* "+ More..." 結尾樣式 */
+        .mosaic-more {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #14171a;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .mosaic-more i {
+            font-size: 0.85rem;
+            margin-top: 2px;
+            color: var(--text-secondary);
+        }
+
+        .hobby-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 12px 8px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+            text-align: center;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+        }
+
+        /* Contact 區塊 */
+        .contact-section {
+            border-top: 1px solid var(--border-color);
+            margin-top: 48px;
+            padding-top: 20px;
+        }
+
+        .contact-subtitle {
+            color: var(--text-secondary);
             font-size: 0.95rem;
             margin-bottom: 24px;
         }
 
-        .status {
-            display: inline-block;
-            padding: 6px 14px;
-            background-color: rgba(34, 197, 94, 0.15);
-            color: #4ade80;
-            border-radius: 9999px;
-            font-size: 0.85rem;
-            margin-bottom: 28px;
-            border: 1px solid rgba(74, 222, 128, 0.2);
+        .contact-subtitle a {
+            color: var(--link-color);
+            text-decoration: none;
         }
 
-        .links {
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .contact-col h4 {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .contact-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
+            font-size: 0.95rem;
         }
 
-        .btn {
-            display: block;
-            padding: 12px;
-            background-color: #334155;
-            color: #f8fafc;
+        .contact-list a, .contact-list span {
+            color: var(--link-color);
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn:hover {
-            background-color: #475569;
-            transform: translateY(-2px);
+        .contact-list span {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 680px) {
+            .profile-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .news-item {
+                flex-direction: column;
+                gap: 2px;
+            }
+            .hobbies-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="avatar">🚀</div>
-        <h1>skygaouni</h1>
-        <p class="subtitle">網站架設中，敬請期待！</p>
-        <span class="status">● GitHub Pages 上線運行中</span>
+    <!-- 頂部導覽列 -->
+    <header>
+        <div class="navbar">
+            <div class="nav-left">
+                <!-- 左上角 skygaouni 替換為圖片 -->
+                <a href="#" class="nav-logo">
+                    <img src="./assets/title.png" alt="Logo" class="nav-logo-img" onerror="this.src='https://via.placeholder.com/120x30?text=Logo'">
+                </a>
+                <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+                <a href="#news" class="nav-link" data-i18n="nav_news">News</a>
+                <a href="#research" class="nav-link" data-i18n="nav_research">Research</a>
+                <a href="#hobbies" class="nav-link" data-i18n="nav_hobbies">Hobbies</a>
+                <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
+            </div>
+            
+            <div class="nav-right">
+                <a href="mailto:brianbear168@example.com" class="icon-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://github.com/skygaouni" class="icon-btn" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
 
-        <div class="links">
-            <a href="https://github.com/skygaouni" class="btn" target="_blank">造訪 GitHub</a>
+                <!-- 語言下拉選單 -->
+                <div class="dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown(event, 'lang-menu')">
+                        <span id="current-lang-flag">🇺🇸</span>
+                        <span id="current-lang-text">English</span>
+                        <i class="fa-solid fa-caret-down" style="font-size: 0.75rem; margin-left: 2px;"></i>
+                    </button>
+                    <div class="dropdown-menu" id="lang-menu">
+                        <button class="dropdown-item" onclick="selectLanguage('en')">🇺🇸 English</button>
+                        <button class="dropdown-item" onclick="selectLanguage('zh')">🇹🇼 繁體中文</button>
+                    </div>
+                </div>
+
+                <!-- 主題下拉選單 -->
+                <div class="dropdown">
+                    <button class="dropdown-toggle" onclick="toggleDropdown(event, 'theme-menu')" style="padding: 4px 8px;">
+                        <i class="fa-solid fa-sun" id="current-theme-icon"></i>
+                        <i class="fa-solid fa-caret-down" style="font-size: 0.75rem; margin-left: 2px;"></i>
+                    </button>
+                    <div class="dropdown-menu theme-dropdown-menu" id="theme-menu">
+                        <button class="dropdown-item" onclick="selectTheme('light')" title="Light Mode">
+                            <i class="fa-solid fa-sun"></i>
+                        </button>
+                        <button class="dropdown-item" onclick="selectTheme('dark')" title="Dark Mode">
+                            <i class="fa-solid fa-moon"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
+    </header>
+
+    <div class="container">
+        <!-- About 區塊 -->
+        <section id="about">
+            <div class="profile-section">
+                <img src="./assets/myProfile.jpg" alt="Avatar" class="avatar" onerror="this.src='https://via.placeholder.com/150x200'">
+                <div class="profile-info">
+                    <h1 data-i18n="bio_name">Po-Ju, Chou(周柏儒)</h1>
+                </div>
+            </div>
+
+            <!-- Education 時間軸 -->
+            <div class="about-education">
+                <div class="sub-section-title">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span data-i18n="edu_header">Education</span>
+                </div>
+                <div class="timeline">
+                    <!-- 陽明交大 碩士 -->
+                    <div class="timeline-item">
+                        <div class="timeline-title" data-i18n="edu_nycu_title">National Yang Ming Chiao Tung University</div>
+                        <div class="timeline-period" data-i18n="edu_nycu_period">Sep 2026 — Present</div>
+                        <ul class="timeline-details">
+                            <li data-i18n="edu_nycu_status">M.S. Student in Institute of Computer Science and Engineering</li>
+                            <li data-i18n="edu_nycu_lab">Computer Animation & Interactive Graphics Laboratory (CAIG Lab)</li>
+                        </ul>
+                    </div>
+                    <!-- 成功大學 學士 -->
+                    <div class="timeline-item">
+                        <div class="timeline-title" data-i18n="edu_ncku_title">National Cheng Kung University</div>
+                        <div class="timeline-period" data-i18n="edu_ncku_period">Sep 2022 — June 2026</div>
+                        <ul class="timeline-details">
+                            <li data-i18n="edu_ncku_degree">B.S. in Computer Science and Information Engineering</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News 區塊 -->
+        <section id="news">
+            <h2 class="section-title" data-i18n="section_news">News</h2>
+            <div class="research-card">
+                <i class="fa-regular fa-clock"></i>
+                <h3 data-i18n="news_status">Coming Soon</h3>
+                <p data-i18n="news_desc">Latest updates and announcements will be posted here shortly.</p>
+            </div>
+        </section>
+
+        <!-- Research 區塊 -->
+        <section id="research">
+            <h2 class="section-title" data-i18n="section_research">Research</h2>
+            <div class="research-card">
+                <i class="fa-regular fa-clock"></i>
+                <h3 data-i18n="research_status">Coming Soon</h3>
+                <p data-i18n="research_desc">Selected publications and project preprints will be updated here shortly.</p>
+            </div>
+        </section>
+
+        <!-- Hobbies 區塊 (三格卡片排版) -->
+        <section id="hobbies">
+            <h2 class="section-title" data-i18n="section_hobbies">Hobbies</h2>
+            <div class="hobbies-grid">
+                <!-- 格子 1: Anime (無職轉生 莉妮亞娜·泰德路迪亞) -->
+                <a href="https://ani.gamer.com.tw/" target="_blank" class="hobby-card">
+                    <img src="./assets/musyokuTensei.jpg" 
+                         alt="Linia Dedorudia" 
+                         onerror="this.src='https://i.imgur.com/8QZp6L1.jpeg'">
+                    <div class="hobby-overlay" data-i18n="hobby_anime">Animation</div>
+                </a>
+
+                <!-- 格子 2: J-Pop (六宮格：5位歌手 + 1個更多) -->
+                <a href="https://github.com/skygaouni" target="_blank" class="hobby-card">
+                    <div class="mosaic-grid">
+                        <div class="mosaic-item">
+                            <img src="./assets/singer1.jpg" alt="Singer 1" onerror="this.src='https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/singer2.jpg" alt="Singer 2" onerror="this.src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/singer3.jpg" alt="Singer 3" onerror="this.src='https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/singer4.jpg" alt="Singer 4" onerror="this.src='https://images.unsplash.com/photo-1465847899084-d164df4dedc6?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/singer5.jpg" alt="Singer 5" onerror="this.src='https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item mosaic-more">
+                            <span>+ More</span>
+                            <i>...</i>
+                        </div>
+                    </div>
+                    <div class="hobby-overlay" data-i18n="hobby_jpop">J-Pop</div>
+                </a>
+
+                <!-- 格子 3: Games (六宮格：4款遊戲 + 1格插圖 + 1個更多) -->
+                <a href="https://github.com/skygaouni" target="_blank" class="hobby-card">
+                    <div class="mosaic-grid">
+                        <div class="mosaic-item">
+                            <img src="./assets/game1.jpg" alt="Game 1" onerror="this.src='https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/game2.jpg" alt="Game 2" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/game3.jpg" alt="Game 3" onerror="this.src='https://images.unsplash.com/photo-1612287233261-26c710c4e965?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/game4.jpg" alt="Game 4" onerror="this.src='https://images.unsplash.com/photo-1511512578047-dfb367046420?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item">
+                            <img src="./assets/keyboard&mouse.jpg" alt="Game 5" onerror="this.src='https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=200&auto=format&fit=crop&q=60'">
+                        </div>
+                        <div class="mosaic-item mosaic-more">
+                            <span>+ More</span>
+                            <i>...</i>
+                        </div>
+                    </div>
+                    <div class="hobby-overlay" data-i18n="hobby_gaming">Video Games</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Contact 區塊 -->
+        <section id="contact" class="contact-section">
+            <h2 class="section-title" style="margin-top: 0;" data-i18n="section_contact">Contact</h2>
+
+            <div class="contact-grid">
+                <div class="contact-col">
+                    <h4 data-i18n="contact_me_header">CONTACT ME</h4>
+                    <div class="contact-list">
+                        <span><i class="fa-solid fa-location-dot"></i> Taiwan</span>
+                        <a href="mailto:brianbear168@gmail.com"><i class="fa-solid fa-envelope"></i> brianbear168@gmail.com</a>
+                    </div>
+                </div>
+                <div class="contact-col">
+                    <h4 data-i18n="social_header">SOCIAL CONTACTS</h4>
+                    <div class="contact-list">
+                        <a href="https://github.com/skygaouni" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
+    <!-- 腳本邏輯 -->
+    <script>
+        const i18n = {
+            en: {
+                nav_about: "About",
+                nav_news: "News",
+                nav_research: "Research",
+                nav_hobbies: "Hobbies",
+                nav_contact: "Contact",
+                bio_name: "Po-Ju, Chou(周柏儒)",
+                edu_header: "Education",
+                edu_nycu_title: "National Yang Ming Chiao Tung University",
+                edu_nycu_period: "Sep 2026 — Present",
+                edu_nycu_status: "M.S. Student in Institute of Computer Science and Engineering",
+                edu_nycu_lab: "Computer Animation & Interactive Graphics Laboratory (CAIG Lab)",
+                edu_ncku_title: "National Cheng Kung University",
+                edu_ncku_period: "Sep 2022 — June 2026",
+                edu_ncku_degree: "B.S. in Computer Science and Information Engineering",
+                section_news: "News",
+                news_status: "Coming Soon",
+                news_desc: "Latest updates and announcements will be posted here shortly.",
+                section_research: "Research",
+                research_status: "Coming Soon",
+                research_desc: "Selected publications and project preprints will be updated here shortly.",
+                section_hobbies: "Hobbies",
+                hobby_anime: "Animation",
+                hobby_jpop: "J-Pop",
+                hobby_gaming: "Video Games",
+                section_hobbies: "Hobbies",
+                contact_drop_email: "drop me an email",
+                contact_me_header: "CONTACT ME",
+                social_header: "SOCIAL CONTACTS"
+            },
+            zh: {
+                nav_about: "About",
+                nav_news: "News",
+                nav_research: "Research",
+                nav_hobbies: "Hobbies",
+                nav_contact: "Contact",
+                bio_name: "Po-Ju, Chou(周柏儒)",
+                edu_header: "Education",
+                edu_nycu_title: "國立陽明交通大學",
+                edu_nycu_period: "2026 年 9 月 — 現在",
+                edu_nycu_status: "資訊科學與工程研究所 碩士生",
+                edu_nycu_lab: "電腦動畫與互動圖形實驗室 (CAIG Lab)",
+                edu_ncku_title: "國立成功大學",
+                edu_ncku_period: "2022 年 9 月 — 2026 年 6 月",
+                edu_ncku_degree: "資訊工程學系 學士",
+                section_news: "News",
+                news_status: "即將推出 (Coming Soon)",
+                news_desc: "最新動態與個人消息即將於此處發布，敬請期待。",
+                section_research: "Research",
+                research_status: "即將推出 (Coming Soon)",
+                research_desc: "相關學術論文與專案展示即將於此處更新，敬請期待。",
+                section_hobbies: "Hobbies",
+                hobby_anime: "看動畫",
+                hobby_jpop: "J-Pop",
+                hobby_gaming: "遊戲",
+                contact_me_header: "CONTACT ME",
+                contact_drop_email: "寄信給我",
+                contact_me_header: "個人聯絡",
+                social_header: "社群連結"
+            }
+        };
+
+        function toggleDropdown(event, menuId) {
+            event.stopPropagation();
+            const targetMenu = document.getElementById(menuId);
+            const isShown = targetMenu.classList.contains('show');
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+            if (!isShown) targetMenu.classList.add('show');
+        }
+
+        window.addEventListener('click', () => {
+            document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.remove('show'));
+        });
+
+        function selectLanguage(lang) {
+            document.getElementById('current-lang-flag').textContent = lang === 'en' ? '🇺🇸' : '🇹🇼';
+            document.getElementById('current-lang-text').textContent = lang === 'en' ? 'English' : '繁體中文';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[lang][key]) el.textContent = i18n[lang][key];
+            });
+        }
+
+        function selectTheme(theme) {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('current-theme-icon');
+            html.setAttribute('data-theme', theme);
+            themeIcon.className = theme === 'light' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+        }
+    </script>
 </body>
 </html>
