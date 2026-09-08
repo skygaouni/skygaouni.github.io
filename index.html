@@ -242,7 +242,7 @@
             border-bottom: 1px solid var(--border-color);
         }
 
-        #news, #research {
+        #news, #research, #projects, #hobbies {
             padding-bottom: 40px;
             border-bottom: 1px solid var(--border-color);
         }
@@ -362,6 +362,132 @@
             color: var(--text-primary);
             font-size: 1.2rem;
             margin-bottom: 6px;
+        }
+
+        /* Projects 橫向滾動容器樣式 */
+        .projects-scroll-wrapper {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 14px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--btn-border) transparent;
+        }
+
+        .projects-scroll-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .projects-scroll-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .projects-scroll-wrapper::-webkit-scrollbar-thumb {
+            background-color: var(--btn-border);
+            border-radius: 6px;
+        }
+
+        .project-card {
+            flex: 0 0 310px;
+            scroll-snap-align: start;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-body);
+        }
+
+        .project-body {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .project-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .project-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            flex-grow: 1;
+            line-height: 1.5;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .project-tag {
+            font-size: 0.72rem;
+            padding: 2px 8px;
+            background-color: var(--btn-hover);
+            color: var(--link-color);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-btn {
+            font-size: 0.8rem;
+            color: var(--link-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .project-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Coming Soon 專案卡片樣式 */
+        .project-card-placeholder {
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 280px;
+            border: 2px dashed var(--border-color);
+            background-color: transparent;
+            color: var(--text-secondary);
+            padding: 24px;
+        }
+
+        .project-card-placeholder i {
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+            margin-bottom: 10px;
         }
 
         /* Hobbies 三格卡片排版 */
@@ -522,6 +648,9 @@
                 flex-direction: column;
                 gap: 2px;
             }
+            .project-card {
+                flex: 0 0 260px;
+            }
             .hobbies-grid {
                 grid-template-columns: 1fr;
                 gap: 16px;
@@ -545,13 +674,17 @@
                 <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
                 <a href="#news" class="nav-link" data-i18n="nav_news">News</a>
                 <a href="#research" class="nav-link" data-i18n="nav_research">Research</a>
+                <a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a>
                 <a href="#hobbies" class="nav-link" data-i18n="nav_hobbies">Hobbies</a>
                 <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
             </div>
             
+            <!-- 右上角按鈕組：Facebook -> Instagram -> GitHub -> Email -->
             <div class="nav-right">
-                <a href="mailto:brianbear168@example.com" class="icon-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
+                <a href="https://www.facebook.com" class="icon-btn" target="_blank" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com" class="icon-btn" target="_blank" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
                 <a href="https://github.com/skygaouni" class="icon-btn" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>
+                <a href="mailto:brianbear168@gmail.com" class="icon-btn" title="Email"><i class="fa-solid fa-envelope"></i></a>
 
                 <!-- 語言下拉選單 -->
                 <div class="dropdown">
@@ -643,6 +776,37 @@
             </div>
         </section>
 
+        <!-- Projects 橫向滾動區塊 -->
+        <section id="projects">
+            <h2 class="section-title" data-i18n="section_projects">Projects</h2>
+            <div class="projects-scroll-wrapper">
+                <!-- Project 1: 現有的第一個專案 -->
+                <div class="project-card">
+                    <img src="./assets/gameplay.png" alt="Project 1" class="project-img" onerror="this.src='https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=60'">
+                    <div class="project-body">
+                        <h3 class="project-title" data-i18n="proj_1_title">Project Title</h3>
+                        <p class="project-desc" data-i18n="proj_1_desc">A brief description of your project, key methodology, and accomplishments.</p>
+                        <div class="project-tags">
+                            <span class="project-tag">Unity</span>
+                            <span class="project-tag">C#</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/skygaouni/Rhythm-is-Combat" target="_blank" class="project-btn">
+                                <i class="fa-brands fa-github"></i> <span data-i18n="proj_code_btn">Code</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Coming Soon 卡片 -->
+                <div class="project-card project-card-placeholder">
+                    <i class="fa-regular fa-hourglass-half"></i>
+                    <h3 data-i18n="proj_coming_soon_title" style="margin-bottom: 6px;">More Projects</h3>
+                    <p data-i18n="proj_coming_soon_desc" style="font-size: 0.85rem;">New exciting projects are currently underway.</p>
+                </div>
+            </div>
+        </section>
+
         <!-- Hobbies 區塊 (三格卡片排版) -->
         <section id="hobbies">
             <h2 class="section-title" data-i18n="section_hobbies">Hobbies</h2>
@@ -724,6 +888,8 @@
                 <div class="contact-col">
                     <h4 data-i18n="social_header">SOCIAL CONTACTS</h4>
                     <div class="contact-list">
+                        <a href="https://www.facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i> Facebook</a>
+                        <a href="https://www.instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
                         <a href="https://github.com/skygaouni" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
                     </div>
                 </div>
@@ -738,6 +904,7 @@
                 nav_about: "About",
                 nav_news: "News",
                 nav_research: "Research",
+                nav_projects: "Projects",
                 nav_hobbies: "Hobbies",
                 nav_contact: "Contact",
                 bio_name: "Po-Ju, Chou(周柏儒)",
@@ -755,11 +922,16 @@
                 section_research: "Research",
                 research_status: "Coming Soon",
                 research_desc: "Selected publications and project preprints will be updated here shortly.",
+                section_projects: "Projects",
+                proj_1_title: "Project Title",
+                proj_1_desc: "A brief description of your project, key methodology, and accomplishments.",
+                proj_code_btn: "Code",
+                proj_coming_soon_title: "More Projects",
+                proj_coming_soon_desc: "New exciting projects are currently underway.",
                 section_hobbies: "Hobbies",
                 hobby_anime: "Animation",
                 hobby_jpop: "J-Pop",
                 hobby_gaming: "Video Games",
-                section_hobbies: "Hobbies",
                 contact_drop_email: "drop me an email",
                 contact_me_header: "CONTACT ME",
                 social_header: "SOCIAL CONTACTS"
@@ -768,6 +940,7 @@
                 nav_about: "About",
                 nav_news: "News",
                 nav_research: "Research",
+                nav_projects: "Projects",
                 nav_hobbies: "Hobbies",
                 nav_contact: "Contact",
                 bio_name: "Po-Ju, Chou(周柏儒)",
@@ -785,11 +958,16 @@
                 section_research: "Research",
                 research_status: "即將推出 (Coming Soon)",
                 research_desc: "相關學術論文與專案展示即將於此處更新，敬請期待。",
+                section_projects: "專案展示",
+                proj_1_title: "專案名稱",
+                proj_1_desc: "簡要說明此專案的核心目標、研究方法以及主要成果亮點。",
+                proj_code_btn: "原始碼",
+                proj_coming_soon_title: "更多專案",
+                proj_coming_soon_desc: "目前正在進行更多有趣的新專案開發，敬請期待。",
                 section_hobbies: "Hobbies",
                 hobby_anime: "看動畫",
                 hobby_jpop: "J-Pop",
                 hobby_gaming: "遊戲",
-                contact_me_header: "CONTACT ME",
                 contact_drop_email: "寄信給我",
                 contact_me_header: "個人聯絡",
                 social_header: "社群連結"
